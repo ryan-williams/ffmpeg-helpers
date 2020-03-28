@@ -1,11 +1,15 @@
 #!/usr/bin/env bash
 
-if [ $# -lt 2 -o $# -gt 3 ]; then
+usage() {
   echo "Usage: $0 [speed=2|4|10] <input> [output]" >&2
   exit 1
+}
+
+if [ $# -lt 2 -o $# -gt 3 ]; then
+  usage
 fi
 
-speedup="$1"
+speedup="${1%x}"
 shift
 input="$1"
 shift
@@ -17,5 +21,24 @@ else
   extension="${input##*.}"
   output="${base}-${speedup}x.${extension}"
 fi
-echo "$input $output"
-#ffmpeg -i 'GX010137-2x.MP4' -filter_complex "[0:v]setpts=0.5*PTS[v];[0:a]atempo=2.0[a]" -map "[v]" -map "[a]" 'GX010137-2x2x.MP4'
+
+case "$speedup" in
+  2)
+    setpts=0.5
+    atempo="atempo=2.0"
+    ;;
+  4)
+    setpts=0.25
+    atempo="atempo=2.0,atempo=2.0"
+    ;;
+  10)
+    setpts=0.1
+    atempo="atempo=2.0,atempo=2.0,atempo=2.0,atempo=1.25"
+    ;;
+  *)
+    usage
+    ;;
+esac
+
+echo "$input $setpts $atempo $output"
+ffmpeg -i "$input" -filter_complex "[0:v]setpts=$setpts*PTS[v];[0:a]$atempo[a]" -map "[v]" -map "[a]" "$output"
