@@ -27,11 +27,23 @@ case "$speedup" in
     setpts=0.5
     atempo="atempo=2.0"
     ;;
+  2.5)
+    setpts=0.4
+    atempo="atempo=2.0,atempo=1.25"
+    ;;
   4)
     setpts=0.25
     atempo="atempo=2.0,atempo=2.0"
     ;;
   10)
+    setpts=0.1
+    atempo="atempo=2.0,atempo=2.0,atempo=2.0,atempo=1.25"
+    ;;
+  20)
+    setpts=0.05
+    atempo="atempo=2.0,atempo=2.0,atempo=2.0,atempo=2.0,atempo=1.25"
+    ;;
+  50)
     setpts=0.1
     atempo="atempo=2.0,atempo=2.0,atempo=2.0,atempo=1.25"
     ;;
