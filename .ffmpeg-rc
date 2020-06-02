@@ -7,3 +7,4 @@ video_info() {
 }
 export -f video_info
 defn vif video_info
+defn fmi ffmpeg -i
