@@ -11,6 +11,7 @@ parser.add_argument('-f','--fps',default=10)
 parser.add_argument('-s','--start')
 parser.add_argument('-t','--to')
 parser.add_argument('-w','--width',default=800)
+parser.add_argument('-y','--overwrite',action='store_true')
 parser.add_argument('input')
 parser.add_argument('output',nargs='?')
 
@@ -19,6 +20,7 @@ fps = args.fps
 start = args.start
 to = args.to
 width = args.width
+overwrite = args.overwrite
 
 input = args.input
 output = args.output
@@ -28,6 +30,7 @@ cmd = [
     '-i',input
 ]
 
+if overwrite: cmd += ['-y']
 if start: cmd += ['-ss',str(start)]
 if to: cmd += ['-to',str(to)]
 
